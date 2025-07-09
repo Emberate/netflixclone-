@@ -3,385 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NetflixClone</title>
+    <title>Netflix - Watch TV Shows Online, Watch Movies Online</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1489599732536-9a5b76b1db9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+        .hero-gradient {
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0.7) 0%,
+                rgba(0, 0, 0, 0.3) 50%,
+                rgba(0, 0, 0, 0.7) 100%
+            ),
+            url('https://images.unsplash.com/photo-1489599736374-b2de9018b6d7?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80');
             background-size: cover;
             background-position: center;
         }
         
-        .movie-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        .text-shadow {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.45);
         }
         
-        .movie-card:hover {
+        .card-hover {
+            transition: transform 0.3s ease;
+        }
+        
+        .card-hover:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
         
-        .scroll-container {
-            scrollbar-width: none;
-            -ms-overflow-style: none;
+        .bounce-arrow {
+            animation: bounce 2s infinite;
         }
         
-        .scroll-container::-webkit-scrollbar {
-            display: none;
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
         }
         
         .fade-in {
-            animation: fadeIn 0.5s ease-in;
+            animation: fadeIn 0.8s ease-out;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        .modal {
+        .slide-in {
+            animation: slideIn 0.8s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        
+        .gradient-text {
+            background: linear-gradient(45deg, #e50914, #ff6b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .glass-effect {
             backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.3);
+        }
+        
+        .input-glow:focus {
+            box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.5);
         }
     </style>
 </head>
 <body class="bg-black text-white overflow-x-hidden">
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent px-4 py-4">
-        <div class="flex items-center justify-between max-w-7xl mx-auto">
-            <div class="flex items-center space-x-8">
-                <h1 class="text-red-600 text-2xl font-bold">NETFLIXCLONE</h1>
-                <div class="hidden md:flex space-x-6">
-                    <a href="#" class="hover:text-gray-300 transition-colors">Home</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">TV Shows</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">Movies</a>
-                    <a href="#" class="hover:text-gray-300 transition-colors">My List</a>
-                </div>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button class="hover:text-gray-300 transition-colors">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+    <nav class="fixed top-0 w-full z-50 glass-effect transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-8">
+                    <svg class="w-32 h-8 text-red-600" viewBox="0 0 111 30" fill="currentColor">
+                        <path d="M105.062 14.28L111 30c-1.75-.25-3.499-.563-5.28-.845l-3.345-8.686-3.437 8.656c-1.687.218-3.343.436-5.062.624L103.875 14.28 98.624 3.28c1.75.25 3.469.594 5.219.906l2.781 6.719 2.781-6.625c1.688-.188 3.344-.375 5.063-.563L105.062 14.28zM90.219 3.375c-2.344 0-4.5.094-6.656.375v23.75c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V3.375h-5z"/>
+                        <path d="M70.406 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V17.156h6.375c1.688 0 3.281-.219 4.844-.625V2.5H70.406z"/>
+                        <path d="M55.406 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V2.5H55.406z"/>
+                        <path d="M37.062 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V17.156h6.375c1.688 0 3.281-.219 4.844-.625V2.5H37.062z"/>
+                        <path d="M24.219 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V2.5H24.219z"/>
+                        <path d="M10.437 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V17.156h6.375c1.688 0 3.281-.219 4.844-.625V2.5H10.437z"/>
+                        <path d="M1.781 2.5c-2.094 0-4.094.094-6.094.25v25.281c1.875.125 3.719.188 5.594.188 2.031 0 4.063-.094 6.062-.25V2.5H1.781z"/>
                     </svg>
-                </button>
-                <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
-                    <span class="text-sm font-bold">U</span>
+                    <svg class="w-24 h-8 text-red-600" viewBox="0 0 111 30" fill="currentColor">
+                        <g>
+                            <path d="M105.06233,14.2806261 L110.999156,30 C109.249227,29.7497422 107.500234,29.4366857 105.718437,29.1313772 L102.374168,20.4441333 L98.9371075,28.4848307 C97.2499766,28.4848307 95.5928391,28.4848307 93.9057081,28.4848307 L99.9372012,14.0931671 L94.4680851,-5.68434189e-14 C96.1519923,-5.68434189e-14 97.8358994,-5.68434189e-14 99.5198065,-5.68434189e-14 L102.509766,9.25745693 L105.593823,0 C107.184062,0 108.764513,0 110.345699,0 L105.06233,14.2806261 Z"/>
+                            <path d="M90.4686475,-5.68434189e-14 C89.2235633,-5.68434189e-14 88.0234305,-5.68434189e-14 86.8553886,-5.68434189e-14 L86.8553886,24.7985893 C88.6064002,24.7985893 90.3574118,24.7985893 92.1084234,24.7985893 L92.1084234,0 C91.3886475,0 90.6688716,0 89.9490956,0 L90.4686475,-5.68434189e-14 Z"/>
+                            <path d="M81.9055207,26.93692 C77.7186241,26.6557316 73.5307901,26.4064111 69.250164,26.3117443 L69.250164,18.5725838 L79.6045597,18.5725838 L79.6045597,15.3854421 L69.250164,15.3854421 L69.250164,4.17991764 L81.9055207,4.17991764 L81.9055207,0.89420943 L65.3624093,0.89420943 L65.3624093,26.93692 L81.9055207,26.93692 Z"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded text-white font-medium transition-colors">
+                        Sign In
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
     <!-- Hero Section -->
-    <section class="hero-bg h-screen flex items-center">
-        <div class="max-w-7xl mx-auto px-4 w-full">
-            <div class="max-w-2xl">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">Stranger Things</h1>
-                <p class="text-xl mb-8 fade-in">When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.</p>
-                <div class="flex space-x-4 fade-in">
-                    <button class="bg-white text-black px-8 py-3 rounded font-bold hover:bg-gray-200 transition-colors flex items-center space-x-2">
-                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M6.5 3.5L18 12 6.5 20.5V3.5z"/>
+    <section class="hero-gradient min-h-screen flex items-center justify-center">
+        <div class="max-w-4xl mx-auto text-center px-4">
+            <h1 class="text-5xl md:text-7xl font-bold mb-6 text-shadow fade-in">
+                Unlimited movies, TV shows, and more.
+            </h1>
+            <p class="text-xl md:text-2xl mb-6 text-shadow fade-in">
+                Watch anywhere. Cancel anytime.
+            </p>
+            <p class="text-lg md:text-xl mb-8 text-shadow fade-in">
+                Ready to watch? Enter your email to create or restart your membership.
+            </p>
+            
+            <div class="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto fade-in">
+                <input 
+                    type="email" 
+                    placeholder="Email address" 
+                    class="flex-1 px-6 py-4 text-lg bg-white text-black rounded input-glow focus:outline-none"
+                    id="emailInput"
+                >
+                <button 
+                    class="bg-red-600 hover:bg-red-700 px-8 py-4 text-lg font-semibold rounded transition-colors flex items-center justify-center space-x-2"
+                    onclick="handleGetStarted()"
+                >
+                    <span>Get Started</span>
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 bounce-arrow">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+            </svg>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-7xl mx-auto px-4">
+            <!-- Feature 1 -->
+            <div class="flex flex-col md:flex-row items-center mb-20">
+                <div class="md:w-1/2 mb-8 md:mb-0 slide-in">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Enjoy on your TV.</h2>
+                    <p class="text-xl md:text-2xl text-gray-300">
+                        Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray players, and more.
+                    </p>
+                </div>
+                <div class="md:w-1/2 md:pl-12 fade-in">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1593784991095-a205069470b6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                             alt="TV" class="w-full rounded-lg shadow-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="flex flex-col md:flex-row-reverse items-center mb-20">
+                <div class="md:w-1/2 mb-8 md:mb-0 slide-in">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Download your shows to watch offline.</h2>
+                    <p class="text-xl md:text-2xl text-gray-300">
+                        Save your favorites easily and always have something to watch.
+                    </p>
+                </div>
+                <div class="md:w-1/2 md:pr-12 fade-in">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Mobile" class="w-full rounded-lg shadow-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-8 md:mb-0 slide-in">
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Watch everywhere.</h2>
+                    <p class="text-xl md:text-2xl text-gray-300">
+                        Stream unlimited movies and TV shows on your phone, tablet, laptop, and TV without paying more.
+                    </p>
+                </div>
+                <div class="md:w-1/2 md:pl-12 fade-in">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Devices" class="w-full rounded-lg shadow-2xl">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-lg"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-4xl mx-auto px-4">
+            <h2 class="text-4xl md:text-5xl font-bold text-center mb-12 fade-in">Frequently Asked Questions</h2>
+            
+            <div class="space-y-2" id="faqContainer">
+                <div class="faq-item bg-gray-800 rounded-lg overflow-hidden fade-in">
+                    <button class="w-full px-6 py-6 text-left text-xl md:text-2xl font-medium flex justify-between items-center hover:bg-gray-700 transition-colors" onclick="toggleFAQ(0)">
+                        <span>What is Netflix?</span>
+                        <svg class="w-6 h-6 transform transition-transform" id="faq-icon-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        <span>Play</span>
                     </button>
-                    <button class="bg-gray-600 bg-opacity-70 text-white px-8 py-3 rounded font-bold hover:bg-opacity-50 transition-colors flex items-center space-x-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    <div class="px-6 pb-6 text-lg md:text-xl text-gray-300 hidden" id="faq-content-0">
+                        Netflix is a streaming service that offers a wide variety of award-winning TV shows, movies and documentaries on thousands of internet-connected devices. You can watch as much as you want, whenever you want without a single commercial – all for one low monthly price.
+                    </div>
+                </div>
+
+                <div class="faq-item bg-gray-800 rounded-lg overflow-hidden fade-in">
+                    <button class="w-full px-6 py-6 text-left text-xl md:text-2xl font-medium flex justify-between items-center hover:bg-gray-700 transition-colors" onclick="toggleFAQ(1)">
+                        <span>How much does Netflix cost?</span>
+                        <svg class="w-6 h-6 transform transition-transform" id="faq-icon-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        <span>More Info</span>
+                    </button>
+                    <div class="px-6 pb-6 text-lg md:text-xl text-gray-300 hidden" id="faq-content-1">
+                        Watch Netflix on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly fee. Plans range from ₹149 to ₹649 a month. No extra costs, no contracts.
+                    </div>
+                </div>
+
+                <div class="faq-item bg-gray-800 rounded-lg overflow-hidden fade-in">
+                    <button class="w-full px-6 py-6 text-left text-xl md:text-2xl font-medium flex justify-between items-center hover:bg-gray-700 transition-colors" onclick="toggleFAQ(2)">
+                        <span>Where can I watch?</span>
+                        <svg class="w-6 h-6 transform transition-transform" id="faq-icon-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 text-lg md:text-xl text-gray-300 hidden" id="faq-content-2">
+                        Watch anywhere, anytime. Sign in with your Netflix account to watch instantly on the web at netflix.com from your personal computer or on any internet-connected device that offers the Netflix app.
+                    </div>
+                </div>
+
+                <div class="faq-item bg-gray-800 rounded-lg overflow-hidden fade-in">
+                    <button class="w-full px-6 py-6 text-left text-xl md:text-2xl font-medium flex justify-between items-center hover:bg-gray-700 transition-colors" onclick="toggleFAQ(3)">
+                        <span>How do I cancel?</span>
+                        <svg class="w-6 h-6 transform transition-transform" id="faq-icon-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                    </button>
+                    <div class="px-6 pb-6 text-lg md:text-xl text-gray-300 hidden" id="faq-content-3">
+                        Netflix is flexible. There are no pesky contracts and no commitments. You can easily cancel your account online in two clicks. There are no cancellation fees – start or stop your account anytime.
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 fade-in">
+                <p class="text-lg md:text-xl mb-8">
+                    Ready to watch? Enter your email to create or restart your membership.
+                </p>
+                <div class="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto">
+                    <input 
+                        type="email" 
+                        placeholder="Email address" 
+                        class="flex-1 px-6 py-4 text-lg bg-white text-black rounded input-glow focus:outline-none"
+                        id="emailInput2"
+                    >
+                    <button 
+                        class="bg-red-600 hover:bg-red-700 px-8 py-4 text-lg font-semibold rounded transition-colors flex items-center justify-center space-x-2"
+                        onclick="handleGetStarted()"
+                    >
+                        <span>Get Started</span>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                        </svg>
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Movie Categories -->
-    <div class="px-4 -mt-32 relative z-10">
-        <div class="max-w-7xl mx-auto space-y-12">
-            <!-- Trending Now -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Trending Now</h2>
-                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="trending-container">
-                    <!-- Movies will be populated by JavaScript -->
+    <!-- Footer -->
+    <footer class="bg-black py-16 px-4">
+        <div class="max-w-4xl mx-auto">
+            <p class="text-gray-400 mb-8">Questions? Call 000-800-919-1694</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div class="space-y-3">
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">FAQ</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Investor Relations</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Privacy</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Speed Test</a>
                 </div>
-            </section>
-
-            <!-- Netflix Originals -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Netflix Originals</h2>
-                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="originals-container">
-                    <!-- Movies will be populated by JavaScript -->
+                <div class="space-y-3">
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Help Centre</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Jobs</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Cookie Preferences</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Legal Notices</a>
                 </div>
-            </section>
-
-            <!-- Action Movies -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Action Movies</h2>
-                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="action-container">
-                    <!-- Movies will be populated by JavaScript -->
+                <div class="space-y-3">
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Account</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Ways to Watch</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Corporate Information</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Only on Netflix</a>
                 </div>
-            </section>
-
-            <!-- Comedy Movies -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Comedy Movies</h2>
-                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="comedy-container">
-                    <!-- Movies will be populated by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Horror Movies -->
-            <section>
-                <h2 class="text-2xl font-bold mb-4">Horror Movies</h2>
-                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="horror-container">
-                    <!-- Movies will be populated by JavaScript -->
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- Modal for Movie Details -->
-    <div id="movieModal" class="fixed inset-0 bg-black bg-opacity-80 modal hidden z-50 items-center justify-center">
-        <div class="bg-gray-900 rounded-lg max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
-            <div class="relative">
-                <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-                    </svg>
-                </button>
-                <div id="modalContent">
-                    <!-- Modal content will be populated by JavaScript -->
+                <div class="space-y-3">
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Media Centre</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Terms of Use</a>
+                    <a href="#" class="block text-gray-400 hover:text-white transition-colors">Contact Us</a>
                 </div>
             </div>
+            <div class="mb-8">
+                <select class="bg-black border border-gray-600 text-white px-4 py-2 rounded">
+                    <option>English</option>
+                    <option>हिन्दी</option>
+                </select>
+            </div>
+            <p class="text-gray-400">Netflix India</p>
+        </div>
+    </footer>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 bg-black bg-opacity-80 hidden items-center justify-center z-50">
+        <div class="bg-white text-black p-8 rounded-lg max-w-md mx-4 text-center">
+            <div class="mb-4">
+                <svg class="w-16 h-16 text-green-500 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <h3 class="text-2xl font-bold mb-4">Welcome to Netflix!</h3>
+            <p class="text-gray-600 mb-6">Thank you for your interest. You would now be redirected to create your account.</p>
+            <button onclick="closeSuccessModal()" class="bg-red-600 text-white px-6 py-3 rounded hover:bg-red-700 transition-colors">
+                Continue
+            </button>
         </div>
     </div>
 
     <script>
-        // Movie data
-        const movies = {
-            trending: [
-                {
-                    title: "The Witcher",
-                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2023",
-                    rating: "TV-MA",
-                    description: "Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts."
-                },
-                {
-                    title: "Wednesday",
-                    image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1028&q=80",
-                    year: "2022",
-                    rating: "TV-14",
-                    description: "Smart, sarcastic and a little dead inside, Wednesday Addams investigates a murder spree while making new friends — and foes — at Nevermore Academy."
-                },
-                {
-                    title: "The Crown",
-                    image: "https://images.unsplash.com/photo-1585159812596-3c8d6c6e4f6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2023",
-                    rating: "TV-MA",
-                    description: "Follows the political rivalries and romance of Queen Elizabeth II's reign and the events that shaped the second half of the twentieth century."
-                },
-                {
-                    title: "Ozark",
-                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2022",
-                    rating: "TV-MA",
-                    description: "A financial advisor drags his family from Chicago to the Missouri Ozarks, where he must launder $500 million in five years to appease a drug boss."
-                }
-            ],
-            originals: [
-                {
-                    title: "House of Cards",
-                    image: "https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
-                    year: "2021",
-                    rating: "TV-MA",
-                    description: "A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him."
-                },
-                {
-                    title: "Orange Is the New Black",
-                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2019",
-                    rating: "TV-MA",
-                    description: "A privileged New Yorker ends up in a women's federal prison when her past catches up with her."
-                },
-                {
-                    title: "Mindhunter",
-                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-                    year: "2019",
-                    rating: "TV-MA",
-                    description: "In the late 1970s, two FBI agents broaden the realm of criminal science by investigating the psychology behind murder."
-                }
-            ],
-            action: [
-                {
-                    title: "Extraction",
-                    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2020",
-                    rating: "R",
-                    description: "A black-market mercenary who has nothing to lose is hired to rescue the kidnapped son of an imprisoned international crime lord."
-                },
-                {
-                    title: "The Old Guard",
-                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2020",
-                    rating: "R",
-                    description: "A covert team of immortal mercenaries is suddenly exposed and must now fight to keep their identity a secret."
-                },
-                {
-                    title: "6 Underground",
-                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2019",
-                    rating: "R",
-                    description: "Six individuals from all around the globe, each the very best at what they do, have been chosen for their unique skill set."
-                }
-            ],
-            comedy: [
-                {
-                    title: "The Good Place",
-                    image: "https://images.unsplash.com/photo-1613963761787-4b8b99b9e0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2020",
-                    rating: "TV-14",
-                    description: "A woman struggles to be a good person when she is accidentally sent to a utopian afterlife."
-                },
-                {
-                    title: "Schitt's Creek",
-                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2020",
-                    rating: "TV-14",
-                    description: "When a wealthy family suddenly loses their fortune, they are forced to leave their pampered lives and start over in Schitt's Creek."
-                },
-                {
-                    title: "Brooklyn Nine-Nine",
-                    image: "https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
-                    year: "2021",
-                    rating: "TV-14",
-                    description: "Comedy series following the exploits of Det. Jake Peralta and his diverse colleagues at the Nine-Nine."
-                }
-            ],
-            horror: [
-                {
-                    title: "The Haunting of Hill House",
-                    image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1028&q=80",
-                    year: "2018",
-                    rating: "TV-MA",
-                    description: "Flashing between past and present, a fractured family confronts haunting memories of their old home."
-                },
-                {
-                    title: "The Ritual",
-                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
-                    year: "2017",
-                    rating: "R",
-                    description: "A group of friends reunite for a hiking trip in the Swedish forest, but their journey takes a dark turn."
-                },
-                {
-                    title: "Bird Box",
-                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
-                    year: "2018",
-                    rating: "R",
-                    description: "Five years after an ominous unseen presence drives most of society to suicide, a survivor and her two children make a desperate bid to reach safety."
-                }
-            ]
-        };
-
-        // Function to create movie card
-        function createMovieCard(movie) {
-            return `
-                <div class="movie-card min-w-60 cursor-pointer" onclick="openModal('${movie.title}', '${movie.image}', '${movie.year}', '${movie.rating}', '${movie.description}')">
-                    <img src="${movie.image}" alt="${movie.title}" class="w-full h-36 object-cover rounded-lg">
-                    <h3 class="text-sm font-semibold mt-2">${movie.title}</h3>
-                    <p class="text-xs text-gray-400">${movie.year}</p>
-                </div>
-            `;
-        }
-
-        // Function to populate movie containers
-        function populateMovies() {
-            document.getElementById('trending-container').innerHTML = 
-                movies.trending.map(createMovieCard).join('');
-            document.getElementById('originals-container').innerHTML = 
-                movies.originals.map(createMovieCard).join('');
-            document.getElementById('action-container').innerHTML = 
-                movies.action.map(createMovieCard).join('');
-            document.getElementById('comedy-container').innerHTML = 
-                movies.comedy.map(createMovieCard).join('');
-            document.getElementById('horror-container').innerHTML = 
-                movies.horror.map(createMovieCard).join('');
-        }
-
-        // Function to open modal
-        function openModal(title, image, year, rating, description) {
-            const modal = document.getElementById('movieModal');
-            const modalContent = document.getElementById('modalContent');
+        // FAQ Toggle functionality
+        function toggleFAQ(index) {
+            const content = document.getElementById(`faq-content-${index}`);
+            const icon = document.getElementById(`faq-icon-${index}`);
             
-            modalContent.innerHTML = `
-                <div class="relative">
-                    <img src="${image}" alt="${title}" class="w-full h-64 object-cover rounded-t-lg">
-                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
-                        <h2 class="text-3xl font-bold">${title}</h2>
-                        <div class="flex items-center space-x-4 mt-2">
-                            <span class="text-green-400 font-semibold">98% Match</span>
-                            <span class="border border-gray-400 px-2 py-1 text-sm">${rating}</span>
-                            <span class="text-gray-400">${year}</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="p-6">
-                    <div class="flex space-x-4 mb-4">
-                        <button class="bg-white text-black px-6 py-2 rounded font-bold hover:bg-gray-200 transition-colors flex items-center space-x-2">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M6.5 3.5L18 12 6.5 20.5V3.5z"/>
-                            </svg>
-                            <span>Play</span>
-                        </button>
-                        <button class="bg-gray-600 text-white px-6 py-2 rounded font-bold hover:bg-gray-500 transition-colors flex items-center space-x-2">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                            </svg>
-                            <span>My List</span>
-                        </button>
-                    </div>
-                    <p class="text-gray-300 mb-4">${description}</p>
-                    <div class="text-sm text-gray-400">
-                        <p><span class="text-white">Genres:</span> Drama, Thriller, Mystery</p>
-                        <p><span class="text-white">This movie is:</span> Suspenseful, Dark, Intense</p>
-                    </div>
-                </div>
-            `;
-            
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        }
-
-        // Function to close modal
-        function closeModal() {
-            const modal = document.getElementById('movieModal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // Event listeners
-        document.getElementById('closeModal').addEventListener('click', closeModal);
-        document.getElementById('movieModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeModal();
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(45deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
             }
+        }
+
+        // Handle Get Started button
+        function handleGetStarted() {
+            const email = document.getElementById('emailInput').value || document.getElementById('emailInput2').value;
+            if (email && email.includes('@')) {
+                showSuccessModal();
+            } else {
+                alert('Please enter a valid email address');
+            }
+        }
+
+        function showSuccessModal() {
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('successModal').classList.add('flex');
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+            document.getElementById('successModal').classList.remove('flex');
+        }
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
 
-        // Navbar scroll effect
+        // Navbar background change on scroll
         window.addEventListener('scroll', function() {
             const nav = document.querySelector('nav');
             if (window.scrollY > 100) {
                 nav.classList.add('bg-black');
-                nav.classList.remove('bg-gradient-to-b', 'from-black', 'to-transparent');
+                nav.classList.remove('glass-effect');
             } else {
                 nav.classList.remove('bg-black');
-                nav.classList.add('bg-gradient-to-b', 'from-black', 'to-transparent');
+                nav.classList.add('glass-effect');
             }
         });
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            populateMovies();
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = '0.2s';
+                    entry.target.style.animationFillMode = 'both';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all animated elements
+        document.querySelectorAll('.fade-in, .slide-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Email input validation
+        document.getElementById('emailInput').addEventListener('input', function(e) {
+            const email = e.target.value;
+            if (email && !email.includes('@')) {
+                e.target.style.borderColor = '#ef4444';
+            } else {
+                e.target.style.borderColor = '#d1d5db';
+            }
+        });
+
+        // Keyboard navigation for FAQ
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.classList.contains('faq-button')) {
+                e.target.click();
+            }
         });
     </script>
 </body>
