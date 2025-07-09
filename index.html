@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NetflixClone</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1489599732536-9a5b76b1db9e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .movie-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .movie-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .scroll-container {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        
+        .scroll-container::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal {
+            backdrop-filter: blur(10px);
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-gradient-to-b from-black to-transparent px-4 py-4">
+        <div class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="flex items-center space-x-8">
+                <h1 class="text-red-600 text-2xl font-bold">NETFLIXCLONE</h1>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#" class="hover:text-gray-300 transition-colors">Home</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">TV Shows</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">Movies</a>
+                    <a href="#" class="hover:text-gray-300 transition-colors">My List</a>
+                </div>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button class="hover:text-gray-300 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                </button>
+                <div class="w-8 h-8 bg-red-600 rounded flex items-center justify-center">
+                    <span class="text-sm font-bold">U</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg h-screen flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full">
+            <div class="max-w-2xl">
+                <h1 class="text-5xl md:text-7xl font-bold mb-6 fade-in">Stranger Things</h1>
+                <p class="text-xl mb-8 fade-in">When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.</p>
+                <div class="flex space-x-4 fade-in">
+                    <button class="bg-white text-black px-8 py-3 rounded font-bold hover:bg-gray-200 transition-colors flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.5 3.5L18 12 6.5 20.5V3.5z"/>
+                        </svg>
+                        <span>Play</span>
+                    </button>
+                    <button class="bg-gray-600 bg-opacity-70 text-white px-8 py-3 rounded font-bold hover:bg-opacity-50 transition-colors flex items-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span>More Info</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Movie Categories -->
+    <div class="px-4 -mt-32 relative z-10">
+        <div class="max-w-7xl mx-auto space-y-12">
+            <!-- Trending Now -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Trending Now</h2>
+                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="trending-container">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Netflix Originals -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Netflix Originals</h2>
+                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="originals-container">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Action Movies -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Action Movies</h2>
+                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="action-container">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Comedy Movies -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Comedy Movies</h2>
+                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="comedy-container">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </section>
+
+            <!-- Horror Movies -->
+            <section>
+                <h2 class="text-2xl font-bold mb-4">Horror Movies</h2>
+                <div class="flex space-x-4 overflow-x-auto scroll-container pb-4" id="horror-container">
+                    <!-- Movies will be populated by JavaScript -->
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Modal for Movie Details -->
+    <div id="movieModal" class="fixed inset-0 bg-black bg-opacity-80 modal hidden z-50 items-center justify-center">
+        <div class="bg-gray-900 rounded-lg max-w-4xl w-full mx-4 max-h-screen overflow-y-auto">
+            <div class="relative">
+                <button id="closeModal" class="absolute top-4 right-4 text-white hover:text-gray-300 z-10">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+                <div id="modalContent">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Movie data
+        const movies = {
+            trending: [
+                {
+                    title: "The Witcher",
+                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2023",
+                    rating: "TV-MA",
+                    description: "Geralt of Rivia, a mutated monster-hunter for hire, journeys toward his destiny in a turbulent world where people often prove more wicked than beasts."
+                },
+                {
+                    title: "Wednesday",
+                    image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1028&q=80",
+                    year: "2022",
+                    rating: "TV-14",
+                    description: "Smart, sarcastic and a little dead inside, Wednesday Addams investigates a murder spree while making new friends — and foes — at Nevermore Academy."
+                },
+                {
+                    title: "The Crown",
+                    image: "https://images.unsplash.com/photo-1585159812596-3c8d6c6e4f6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2023",
+                    rating: "TV-MA",
+                    description: "Follows the political rivalries and romance of Queen Elizabeth II's reign and the events that shaped the second half of the twentieth century."
+                },
+                {
+                    title: "Ozark",
+                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2022",
+                    rating: "TV-MA",
+                    description: "A financial advisor drags his family from Chicago to the Missouri Ozarks, where he must launder $500 million in five years to appease a drug boss."
+                }
+            ],
+            originals: [
+                {
+                    title: "House of Cards",
+                    image: "https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
+                    year: "2021",
+                    rating: "TV-MA",
+                    description: "A Congressman works with his equally conniving wife to exact revenge on the people who betrayed him."
+                },
+                {
+                    title: "Orange Is the New Black",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2019",
+                    rating: "TV-MA",
+                    description: "A privileged New Yorker ends up in a women's federal prison when her past catches up with her."
+                },
+                {
+                    title: "Mindhunter",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
+                    year: "2019",
+                    rating: "TV-MA",
+                    description: "In the late 1970s, two FBI agents broaden the realm of criminal science by investigating the psychology behind murder."
+                }
+            ],
+            action: [
+                {
+                    title: "Extraction",
+                    image: "https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2020",
+                    rating: "R",
+                    description: "A black-market mercenary who has nothing to lose is hired to rescue the kidnapped son of an imprisoned international crime lord."
+                },
+                {
+                    title: "The Old Guard",
+                    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2020",
+                    rating: "R",
+                    description: "A covert team of immortal mercenaries is suddenly exposed and must now fight to keep their identity a secret."
+                },
+                {
+                    title: "6 Underground",
+                    image: "https://images.unsplash.com/photo-1440404653325-ab127d49abc1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2019",
+                    rating: "R",
+                    description: "Six individuals from all around the globe, each the very best at what they do, have been chosen for their unique skill set."
+                }
+            ],
+            comedy: [
+                {
+                    title: "The Good Place",
+                    image: "https://images.unsplash.com/photo-1613963761787-4b8b99b9e0d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2020",
+                    rating: "TV-14",
+                    description: "A woman struggles to be a good person when she is accidentally sent to a utopian afterlife."
+                },
+                {
+                    title: "Schitt's Creek",
+                    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2020",
+                    rating: "TV-14",
+                    description: "When a wealthy family suddenly loses their fortune, they are forced to leave their pampered lives and start over in Schitt's Creek."
+                },
+                {
+                    title: "Brooklyn Nine-Nine",
+                    image: "https://images.unsplash.com/photo-1560472355-536de3962603?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1026&q=80",
+                    year: "2021",
+                    rating: "TV-14",
+                    description: "Comedy series following the exploits of Det. Jake Peralta and his diverse colleagues at the Nine-Nine."
+                }
+            ],
+            horror: [
+                {
+                    title: "The Haunting of Hill House",
+                    image: "https://images.unsplash.com/photo-1509281373149-e957c6296406?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1028&q=80",
+                    year: "2018",
+                    rating: "TV-MA",
+                    description: "Flashing between past and present, a fractured family confronts haunting memories of their old home."
+                },
+                {
+                    title: "The Ritual",
+                    image: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1025&q=80",
+                    year: "2017",
+                    rating: "R",
+                    description: "A group of friends reunite for a hiking trip in the Swedish forest, but their journey takes a dark turn."
+                },
+                {
+                    title: "Bird Box",
+                    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80",
+                    year: "2018",
+                    rating: "R",
+                    description: "Five years after an ominous unseen presence drives most of society to suicide, a survivor and her two children make a desperate bid to reach safety."
+                }
+            ]
+        };
+
+        // Function to create movie card
+        function createMovieCard(movie) {
+            return `
+                <div class="movie-card min-w-60 cursor-pointer" onclick="openModal('${movie.title}', '${movie.image}', '${movie.year}', '${movie.rating}', '${movie.description}')">
+                    <img src="${movie.image}" alt="${movie.title}" class="w-full h-36 object-cover rounded-lg">
+                    <h3 class="text-sm font-semibold mt-2">${movie.title}</h3>
+                    <p class="text-xs text-gray-400">${movie.year}</p>
+                </div>
+            `;
+        }
+
+        // Function to populate movie containers
+        function populateMovies() {
+            document.getElementById('trending-container').innerHTML = 
+                movies.trending.map(createMovieCard).join('');
+            document.getElementById('originals-container').innerHTML = 
+                movies.originals.map(createMovieCard).join('');
+            document.getElementById('action-container').innerHTML = 
+                movies.action.map(createMovieCard).join('');
+            document.getElementById('comedy-container').innerHTML = 
+                movies.comedy.map(createMovieCard).join('');
+            document.getElementById('horror-container').innerHTML = 
+                movies.horror.map(createMovieCard).join('');
+        }
+
+        // Function to open modal
+        function openModal(title, image, year, rating, description) {
+            const modal = document.getElementById('movieModal');
+            const modalContent = document.getElementById('modalContent');
+            
+            modalContent.innerHTML = `
+                <div class="relative">
+                    <img src="${image}" alt="${title}" class="w-full h-64 object-cover rounded-t-lg">
+                    <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black to-transparent p-6">
+                        <h2 class="text-3xl font-bold">${title}</h2>
+                        <div class="flex items-center space-x-4 mt-2">
+                            <span class="text-green-400 font-semibold">98% Match</span>
+                            <span class="border border-gray-400 px-2 py-1 text-sm">${rating}</span>
+                            <span class="text-gray-400">${year}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex space-x-4 mb-4">
+                        <button class="bg-white text-black px-6 py-2 rounded font-bold hover:bg-gray-200 transition-colors flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M6.5 3.5L18 12 6.5 20.5V3.5z"/>
+                            </svg>
+                            <span>Play</span>
+                        </button>
+                        <button class="bg-gray-600 text-white px-6 py-2 rounded font-bold hover:bg-gray-500 transition-colors flex items-center space-x-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            <span>My List</span>
+                        </button>
+                    </div>
+                    <p class="text-gray-300 mb-4">${description}</p>
+                    <div class="text-sm text-gray-400">
+                        <p><span class="text-white">Genres:</span> Drama, Thriller, Mystery</p>
+                        <p><span class="text-white">This movie is:</span> Suspenseful, Dark, Intense</p>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        // Function to close modal
+        function closeModal() {
+            const modal = document.getElementById('movieModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Event listeners
+        document.getElementById('closeModal').addEventListener('click', closeModal);
+        document.getElementById('movieModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.classList.add('bg-black');
+                nav.classList.remove('bg-gradient-to-b', 'from-black', 'to-transparent');
+            } else {
+                nav.classList.remove('bg-black');
+                nav.classList.add('bg-gradient-to-b', 'from-black', 'to-transparent');
+            }
+        });
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            populateMovies();
+        });
+    </script>
+</body>
+</html>
